@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round Robin CPU Scheduling Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div><h1>🔄 Round Robin CPU Scheduling Simulator</h1></div>
+            <div>
+                <div style="color: #d1d5db; font-size: 0.9rem;">Current Time</div>
+                <div class="time-value" id="time">0</div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-title">📚 Round Robin Algorithm Concept</div>
+            <div class="legend-text">
+                <strong>Circular Queue Execution:</strong> Processes are arranged in a circular queue. The CPU executes each process for a fixed time quantum. If a process is not completed within its quantum, it moves to the end of the queue (back of the circle). The CPU then serves the next process in clockwise direction. This continues until all processes complete execution.
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="control-box">
+                <label>Time Quantum: <span id="qVal">2</span></label>
+                <input type="range" id="quantum" min="1" max="5" value="2">
+            </div>
+            <div class="control-box">
+                <label>Animation Speed: <span id="sVal">800</span>ms</label>
+                <input type="range" id="speedSlider" min="300" max="1500" step="100" value="800">
+            </div>
+            <div class="control-box">
+                <button class="btn-play" id="playBtn">▶ Start Execution</button>
+                <button class="btn-reset" id="resetBtn">↻ Reset</button>
+            </div>
+            <div class="control-box">
+                <button class="btn-add" id="addBtn">+ Add Process</button>
+            </div>
+        </div>
+
+        <div class="circle-container" id="circleViz">
+            <!-- Circular Queue Path -->
+            <div class="queue-circle-path"></div>
+            
+            <!-- Direction arrows showing clockwise flow -->
+            <div class="circle-arrow" style="top: 10%; left: 50%; transform: translateX(-50%);">↓</div>
+            <div class="circle-arrow" style="top: 50%; right: 10%; transform: translateY(-50%);">→</div>
+            <div class="circle-arrow" style="bottom: 10%; left: 50%; transform: translateX(-50%);">↑</div>
+            <div class="circle-arrow" style="top: 50%; left: 10%; transform: translateY(-50%);">←</div>
+            
+            <!-- Direction label -->
+            <div class="direction-label label-top">🔄 Circular Ready Queue - Clockwise Rotation</div>
+            
+            <!-- CPU Center -->
+            <div class="cpu-center">
+                <div class="cpu-label">💻 CPU</div>
+                <div class="cpu-process" id="cpuProc">IDLE</div>
+                <div class="cpu-quantum" id="cpuQuantum"></div>
+            </div>
+            
+            <!-- Entry Door - LEFT SIDE -->
+            <div class="entry-door" id="entryDoor">
+                <div class="door-label">🚪 ENTRY</div>
+                <div class="entering-process-name" id="enteringName">-</div>
+                <div class="door-arrow">➡</div>
+            </div>
+            
+            <!-- Waiting Area (NEW State) - LEFT SIDE -->
+            <div class="waiting-area" id="waitingArea">
+                <div class="waiting-label">⏳ NEW State</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">✅ Completed Processes</div>
+            <div class="completed-list" id="completedList">
+                <span style="color: #9ca3af;">No processes completed yet</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div class="section-title">📋 Process Control Block</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Process ID</th>
+                        <th>Arrival Time</th>
+                        <th>Burst Time</th>
+                        <th>Remaining Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="ptable"></tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">📊 Gantt Chart</div>
+            <div class="gantt" id="gantt"><div style="color:#9ca3af; padding:20px;">Execution not started</div></div>
+        </div>
+
+        <div class="section" id="stats" style="display: none;">
+            <div class="section-title">📈 Performance Metrics</div>
+            <div class="stats-grid" id="statsGrid"></div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">Process P1 completed!</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
